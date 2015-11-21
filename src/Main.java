@@ -7,13 +7,16 @@ public class Main {
 	}
 
 	private static void testHashTable() {
-		MyHashTable<String, String> test = new MyHashTable<String, String>(12);
+		MyHashTable<String, String> test = new MyHashTable<String, String>(6);
 		//System.out.println(test);
-		test.put("0", "asdf");
-		test.put("1", "asdf");
+		test.put("0", "a");
+		test.put("1", "b");
 		
-		test.put("2", "asdf");test.put("3", "asdf");
+		test.put("2", "c");test.put("3", "d");
 		test.stats();
+		System.out.println(test.get("2"));
+		System.out.println(test.get("1"));
+		System.out.println(test.get("8"));
 		//System.out.println(test);
 		
 		
