@@ -135,16 +135,14 @@ public class MyHashTable <K, V> {
 	}
 	
 	public String toString() {
-		StringBuilder result = new StringBuilder();
-		int count = 0;
+		StringBuilder result = new StringBuilder();		
 		result.append('[');
 		for(int i = 0; i < capacity; i++){
 			if(data.get(i) != null){
 				result.append("(" + data.get(i).key + ", " + data.get(i).value + "), ");
-				count++;
 			}
 		}
-		return result.toString().substring(0, result.length() -2 ) +"] number elements: " + count ;
+		return result.toString().substring(0, result.length() -2 ) +"]" ;
 	}
 	
 	private void populateEmptyArray() {

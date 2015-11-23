@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
@@ -10,13 +12,17 @@ public class CodingTree {
 	String text;
 	public MyHashTable<String, String> codes;
 	public MyHashTable<String, Integer> frequencies;
-	public String bits;
+	byte[] bits;
 	Node finishedTree;
+	String bitString;
+	
 
 	public CodingTree(String fullText) {
 		text = fullText;
 		codes = new MyHashTable<String, String>(MAP_SIZE);
 		frequencies = new MyHashTable<String, Integer>(MAP_SIZE);
+		
+		bitString = "";
 		doStuff();
 	}
 
@@ -28,10 +34,8 @@ public class CodingTree {
 	}
 
 	private void countWordFrequency() {
-		StringBuilder temp = new StringBuilder();
-		frequencies.put("--", 1);
-		for(char c : text.toCharArray()) {		  
-			//&& temp.length()>0 && temp.charAt(temp.length()-1) != '-'
+		StringBuilder temp = new StringBuilder();		
+		for(char c : text.toCharArray()) {			
 			if((c + "").matches("[a-zA-Z0-9]") || c == '\'' || (c == '-' ))  {
 				temp.append(c);				
 			} else {
@@ -55,9 +59,8 @@ public class CodingTree {
 	private void generateTree() {
 		ArrayList<MyEntry> freqList = frequencies.toList();
 		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
-		while(!freqList.isEmpty()) {
-			Node temp = new Node(freqList.remove(0));
-			nodeQueue.add(temp);
+		while(!freqList.isEmpty()) {			
+			nodeQueue.add( new Node(freqList.remove(0)));
 		}
 		Node leftNode, rightNode, parentNode;
 
@@ -87,7 +90,37 @@ public class CodingTree {
 		}
 	}
 	private void encode() {
-		// TODO Auto-generated method stub
+		int len = text.length(), curPos = 0;		
+		StringBuilder sbBits = new StringBuilder(), sbChars = new StringBuilder();
+		while(len-- > 1) {			
+			sbChars.append(text.charAt(curPos++));
+			if(curPos%10000==0)System.out.println(curPos);
+			if(codes.contains(sbChars.toString())) {
+				sbBits.append(codes.get(sbChars.toString()));
+				sbChars.delete(0, sbChars.length());
+			
+			}
+		}
+		bitString = sbBits.toString();
+		System.out.println(bitString);
+		int index = 0, currentByte = 0;
+		bits = new byte[bitString.length()/8 +1];
+		Arrays.fill(bits, (byte)0);
+		while(index <  bitString.length() - 8) {
+			if (bitString.length() - index > 7) {
+				bits[currentByte] = ((byte) Integer.parseInt(bitString.substring(index, index + 8), 2));
+				index += 8;
+			} else {
+				byte tempB = 0;
+				for(int i =0; i<8; i++) {
+					byte temp = (byte) Integer.parseInt(bitString.substring(index));
+					tempB += temp << 7-i;
+					index+=8;
+				}
+				bits[currentByte] = (tempB);
+			}
+			currentByte++;
+		}		
 
 	}
 	

@@ -1,13 +1,17 @@
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 
 public class Main {
-	static final String DEFAULT_TXT = "./src/WarAndPeace.txt";
+	static final String DEFAULT_TXT = "./src/test.txt";
 	//static StringBuilder text;
 	static CodingTree huffTree;
 	
@@ -15,16 +19,26 @@ public class Main {
 		//testHashTable();
 		readDefaultText();
 		huffTree.frequencies.stats();
-		System.out.println(huffTree.frequencies.get(" "));
+		//System.out.println(huffTree.codes);
 		outputCodes();
+		//outputCompressed();
 
 	}
 
-	private static void readDefaultText() {	
+	private static void outputCompressed() {
+		
 		try {
-			huffTree = new CodingTree(readFile(DEFAULT_TXT, Charset.defaultCharset()));
-		} catch (IOException e) {			
-			e.printStackTrace();		}
+			FileOutputStream fos = new FileOutputStream("./compressed");
+			System.out.println(huffTree.bits.length);
+			fos.write(huffTree.bits);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	private static void readDefaultText() {		
+			huffTree = new CodingTree(readFile(DEFAULT_TXT, Charset.defaultCharset()));		
 	}
 
 	private static void testHashTable() {
@@ -44,20 +58,23 @@ public class Main {
 	}
 	
 	
-	static String readFile(String path, Charset encoding) 
-			  throws IOException 
-			{
-			  byte[] encoded = Files.readAllBytes(Paths.get(path));
-			  return new String(encoded, encoding);
-			}
+	static String readFile(String path, Charset encoding) {			  
+		String result = "";	
+		try {
+			byte[] encoded = Files.readAllBytes(Paths.get(path));
+			result = new String(encoded, encoding);
+		} catch (IOException e) {				
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	static void outputCodes() {
 		PrintWriter out;
 		try {
 			out = new PrintWriter("./codes.txt");
 			out.print(huffTree.codes.toString());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (FileNotFoundException e) {			
 			e.printStackTrace();
 		}
 		
