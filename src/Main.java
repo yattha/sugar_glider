@@ -22,7 +22,20 @@ public class Main {
 		//System.out.println(huffTree.codes);
 		outputCodes();
 		outputCompressed();
+		outputDecompressed();
 
+	}
+
+	private static void outputDecompressed() {
+		
+		PrintWriter out;
+		try {
+			out = new PrintWriter("./decompressed.txt");
+			out.print(CodingTree.decode(huffTree.bitString, huffTree.codes));
+		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
+		}
+		
 	}
 
 	private static void outputCompressed() {

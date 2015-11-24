@@ -30,7 +30,7 @@ public class MyHashTable <K, V> {
 	
 
 	public void put(K searchKey, V newValue) {
-		
+		//if(!contains(searchKey))numEnts++;//INSANE
 		int index = hash(searchKey);
 		MyEntry<K, V> temp = new MyEntry<K, V>(searchKey, newValue);
 		while(Objects.nonNull(data.get(index)) && !searchKey.equals(data.get(index).key)) {
@@ -59,10 +59,7 @@ public class MyHashTable <K, V> {
 			result = data.get(index);
 			
 		}
-		if(!searchKey.equals(result.key)) result = null;
-		
-		
-		
+		if(!searchKey.equals(result.key)) result = null;	
 		
 		V returnVal = null;
 		if(Objects.nonNull(result)) returnVal = result.value;
@@ -101,11 +98,11 @@ public class MyHashTable <K, V> {
 		result.append(numEnts + "\nNumber of Buckets: " + capacity +"\nHistogram of Probes: ");
 		result.append(histogramToString() + "\nFill Percentage: " + (numEnts/(double)capacity)*100 + "%");
 		result.append("\nMax Linear Prob: " + maxProbe + "\nAverage Linear Prob: " + calcAvgProbe() );
-		System.out.println(result.toString()+"\n\n\n");
+		System.out.println(result.toString()+"\n\n\n" );
 	}
 
-	public ArrayList<MyEntry> toList() {
-		ArrayList<MyEntry>  result= new ArrayList<MyEntry>();
+	public ArrayList<MyEntry<K, V>> toList() {
+		ArrayList<MyEntry<K, V>>  result= new ArrayList<MyEntry<K, V>>();
 		for(int i = 0; i<data.size(); i++)if(data.get(i) !=null)result.add(data.get(i));		
 		return result;
 	}
@@ -131,9 +128,7 @@ public class MyHashTable <K, V> {
 
 	
 
-	private int hash(K searchKey) {
-		
-		
+	private int hash(K searchKey) {		
 			
 		return (((String)searchKey).hashCode()&0x7FFF)%capacity;
 	}

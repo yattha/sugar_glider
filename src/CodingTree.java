@@ -29,8 +29,33 @@ public class CodingTree {
 	private void doStuff() {
 		countWordFrequency();
 		generateTree();
-		generateCode();
+		generateCode();		
 		encode();		
+	}
+	
+	public static String decode(String theBitString, MyHashTable<String, String> theCodes) {
+		StringBuilder result = new StringBuilder(), currentBits = new StringBuilder();		
+		int len = theBitString.length(), curPos = 0;		
+		
+		MyHashTable<String, String> reverseCodesMap = new MyHashTable<String, String>(MAP_SIZE); 
+		for(MyEntry<String, String> e : theCodes.toList()){
+			String tempKey =  e.value, tempValue = e.key;			
+			reverseCodesMap.put(tempKey, tempValue);
+			//System.out.println(e.key + " " + e.value + theCodes.get(e.key));
+		}
+		
+		
+		
+		while(len-- > 1) {
+			if(curPos%10000==0)System.out.println(curPos);
+			currentBits.append(theBitString.charAt(curPos++));
+			if(reverseCodesMap.contains(currentBits.toString())) {				
+				result.append(reverseCodesMap.get(currentBits.toString()));
+				currentBits.delete(0, currentBits.length());
+				}
+			}
+		System.out.println(result.toString().length());
+		return result.toString();
 	}
 
 	private void countWordFrequency() {
@@ -38,8 +63,7 @@ public class CodingTree {
 		for(char c : text.toCharArray()) {			
 			if((c + "").matches("[a-zA-Z0-9]") || c == '\'' || (c == '-' ))  {
 				temp.append(c);				
-			} else {
-				
+			} else {				
 
 				//if(temp.length()>0 &&temp.charAt(temp.length()-1) != '-') temp.delete(temp.length()-1, temp.length());
 				if (!frequencies.contains(temp.toString()))frequencies.put(temp.toString(), 1);
@@ -57,7 +81,7 @@ public class CodingTree {
 	}
 	
 	private void generateTree() {
-		ArrayList<MyEntry> freqList = frequencies.toList();
+		ArrayList<MyEntry<String, Integer>> freqList = frequencies.toList();
 		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
 		while(!freqList.isEmpty()) {			
 			nodeQueue.add( new Node(freqList.remove(0)));
@@ -72,8 +96,7 @@ public class CodingTree {
 			parentNode.addRight(rightNode);
 			nodeQueue.add(parentNode);
 		}
-		finishedTree = nodeQueue.poll();
-	
+		finishedTree = nodeQueue.poll();	
 	}
 	
 	private void generateCode() {
@@ -96,10 +119,8 @@ public class CodingTree {
 		while(len-- > 1) {
 			curChar = text.charAt(curPos);
 			if(!((curChar + "").matches("[a-zA-Z0-9]") || curChar == '\'' || (curChar == '-' )))  {
-				if(lastSeperator < curPos) {
-					if(!codes.contains(text.substring(lastSeperator+1, curPos)))System.out.println(text.substring(lastSeperator+1, curPos));
-					sbBits.append(codes.get(text.substring(lastSeperator+1, curPos)));
-					
+				if(lastSeperator != 0) {					
+					sbBits.append(codes.get(text.substring(lastSeperator+1, curPos)));					
 				}
 				sbBits.append(codes.get("" + curChar));
 				lastSeperator = curPos;
