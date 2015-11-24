@@ -11,7 +11,7 @@ import java.nio.file.StandardOpenOption;
 
 
 public class Main {
-	static final String DEFAULT_TXT = "./src/test.txt";
+	static final String DEFAULT_TXT = "./src/WarAndPeace.txt";
 	//static StringBuilder text;
 	static CodingTree huffTree;
 	
@@ -21,7 +21,7 @@ public class Main {
 		huffTree.frequencies.stats();
 		//System.out.println(huffTree.codes);
 		outputCodes();
-		//outputCompressed();
+		outputCompressed();
 
 	}
 

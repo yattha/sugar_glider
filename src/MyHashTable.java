@@ -1,3 +1,6 @@
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,13 +23,14 @@ public class MyHashTable <K, V> {
 		numEnts = 0;
 		probeHGram = new int[capacity];
 		Arrays.fill(probeHGram, 0);
-		maxProbe = 0;		
+		maxProbe = 0;
+		
 	}
 	
 	
 
 	public void put(K searchKey, V newValue) {
-	
+		
 		int index = hash(searchKey);
 		MyEntry<K, V> temp = new MyEntry<K, V>(searchKey, newValue);
 		while(Objects.nonNull(data.get(index)) && !searchKey.equals(data.get(index).key)) {
@@ -97,7 +101,7 @@ public class MyHashTable <K, V> {
 		result.append(numEnts + "\nNumber of Buckets: " + capacity +"\nHistogram of Probes: ");
 		result.append(histogramToString() + "\nFill Percentage: " + (numEnts/(double)capacity)*100 + "%");
 		result.append("\nMax Linear Prob: " + maxProbe + "\nAverage Linear Prob: " + calcAvgProbe() );
-		System.out.println(result.toString()+"\n\n\n" + "asdf".hashCode() + "    " + "asdf".hashCode() + "  "+  iterativeNumberElements() + "  "+ Collections.frequency(data, null)  + " " +data.size());
+		System.out.println(result.toString()+"\n\n\n");
 	}
 
 	public ArrayList<MyEntry> toList() {

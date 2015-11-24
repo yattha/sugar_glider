@@ -90,19 +90,25 @@ public class CodingTree {
 		}
 	}
 	private void encode() {
-		int len = text.length(), curPos = 0;		
-		StringBuilder sbBits = new StringBuilder(), sbChars = new StringBuilder();
-		while(len-- > 1) {			
-			sbChars.append(text.charAt(curPos++));
-			if(curPos%10000==0)System.out.println(curPos);
-			if(codes.contains(sbChars.toString())) {
-				sbBits.append(codes.get(sbChars.toString()));
-				sbChars.delete(0, sbChars.length());
-			
+		int len = text.length(), curPos = 0, lastSeperator = 0 ; 
+		StringBuilder sbBits = new StringBuilder();
+		char curChar;
+		while(len-- > 1) {
+			curChar = text.charAt(curPos);
+			if(!((curChar + "").matches("[a-zA-Z0-9]") || curChar == '\'' || (curChar == '-' )))  {
+				if(lastSeperator < curPos) {
+					if(!codes.contains(text.substring(lastSeperator+1, curPos)))System.out.println(text.substring(lastSeperator+1, curPos));
+					sbBits.append(codes.get(text.substring(lastSeperator+1, curPos)));
+					
+				}
+				sbBits.append(codes.get("" + curChar));
+				lastSeperator = curPos;
 			}
+			curPos++;
+			//if(curPos%10000==0)System.out.println(curPos + "  " + sbBits.length());
 		}
 		bitString = sbBits.toString();
-		System.out.println(bitString);
+		System.out.println(sbBits.length());
 		int index = 0, currentByte = 0;
 		bits = new byte[bitString.length()/8 +1];
 		Arrays.fill(bits, (byte)0);
@@ -120,8 +126,7 @@ public class CodingTree {
 				bits[currentByte] = (tempB);
 			}
 			currentByte++;
-		}		
-
+		}
 	}
 	
 	
