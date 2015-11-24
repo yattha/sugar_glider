@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 
 public class CodingTree {
 
-	private static final int MAP_SIZE = 32768;
+	public static final int MAP_SIZE = 32768;
 
 	String text;
 	public MyHashTable<String, String> codes;
@@ -47,14 +47,14 @@ public class CodingTree {
 		
 		
 		while(len-- > 1) {
-			if(curPos%10000==0)System.out.println(curPos);
+			if(reverseCodesMap.contains(currentBits.toString()))System.out.println(currentBits.toString());
 			currentBits.append(theBitString.charAt(curPos++));
 			if(reverseCodesMap.contains(currentBits.toString())) {				
 				result.append(reverseCodesMap.get(currentBits.toString()));
 				currentBits.delete(0, currentBits.length());
 				}
 			}
-		System.out.println(result.toString().length());
+		//System.out.println(result.toString().length());
 		return result.toString();
 	}
 
