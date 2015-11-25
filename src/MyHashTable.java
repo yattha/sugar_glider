@@ -138,6 +138,7 @@ public class MyHashTable <K, V> {
 		result.append('[');
 		for(int i = 0; i < capacity; i++){
 			if(data.get(i) != null){
+				
 				result.append("(" + data.get(i).key + ", " + data.get(i).value + "), ");
 			}
 		}

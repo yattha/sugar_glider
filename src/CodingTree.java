@@ -63,8 +63,7 @@ public class CodingTree {
 		for(char c : text.toCharArray()) {			
 			if((c + "").matches("[a-zA-Z0-9]") || c == '\'' || (c == '-' ))  {
 				temp.append(c);				
-			} else {				
-
+			} else {
 				//if(temp.length()>0 &&temp.charAt(temp.length()-1) != '-') temp.delete(temp.length()-1, temp.length());
 				if (!frequencies.contains(temp.toString()))frequencies.put(temp.toString(), 1);
 				else frequencies.put(temp.toString(), frequencies.get(temp.toString()) + 1);

@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -11,7 +12,7 @@ import java.nio.file.Paths;
 
 
 public class Main {
-	static final String DEFAULT_TXT = "./src/345-8.txt";
+	static final String DEFAULT_TXT = "./src/WarAndPeace.txt";
 	//static StringBuilder text;
 	static CodingTree huffTree;
 	
@@ -20,19 +21,28 @@ public class Main {
 		readDefaultText();
 		huffTree.frequencies.stats();
 		//System.out.println(huffTree.codes);
+		
 		outputCodes();
 		outputCompressed();
 		//outputDecompressed();
-		//decompressonFromFile();
+		decompressonFromFile();
 	}
 
 	private static void outputDecompressed() {
 		
-		PrintWriter out;
+		
 		try {
-			out = new PrintWriter("./decompressed.txt");
-			out.print(CodingTree.decode(huffTree.bitString, huffTree.codes));
+			FileWriter out = new FileWriter("./decompressed.txt");
+			String decompressed = CodingTree.decode(huffTree.bitString, huffTree.codes);
+			System.out.println(decompressed);
+			
+			out.write(decompressed);
+			out.flush();
+			out.close();
 		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -85,11 +95,17 @@ public class Main {
 	}
 	
 	static void outputCodes() {
-		PrintWriter out;
+		
 		try {
-			out = new PrintWriter("./codes.txt");
-			out.print(huffTree.codes.toString());
+			FileWriter out = new FileWriter("./codes.txt");
+			String codeString = huffTree.codes.toString();
+			out.write(codeString);
+			out.flush();
+			out.close();
 		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
