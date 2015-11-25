@@ -10,8 +10,8 @@ public class CodingTree {
 	public static final int MAP_SIZE = 32768;
 
 	String text;
-	public MyHashTable<String, String> codes;
-	public MyHashTable<String, Integer> frequencies;
+	public MyHashTableQuadratic<String, String> codes;
+	public MyHashTableQuadratic<String, Integer> frequencies;
 	byte[] bits;
 	Node finishedTree;
 	String bitString;
@@ -19,8 +19,8 @@ public class CodingTree {
 
 	public CodingTree(String fullText) {
 		text = fullText;
-		codes = new MyHashTable<String, String>(MAP_SIZE);
-		frequencies = new MyHashTable<String, Integer>(MAP_SIZE);
+		codes = new MyHashTableQuadratic<String, String>(MAP_SIZE);
+		frequencies = new MyHashTableQuadratic<String, Integer>(MAP_SIZE);
 		
 		bitString = "";
 		doStuff();

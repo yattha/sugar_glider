@@ -9,10 +9,10 @@ import java.util.Objects;
 
 
 public class MyHashTable <K, V> {
-	private static final int LINEAR_STEP = 547;
-	private List<MyEntry<K, V>> data;
-	private int capacity, numEnts, maxProbe;
-	private int[] probeHGram;
+	static final int LINEAR_STEP = 547;
+	List<MyEntry<K, V>> data;
+	int capacity, numEnts, maxProbe;
+	int[] probeHGram;
 
 	
 	
@@ -107,7 +107,7 @@ public class MyHashTable <K, V> {
 		return result;
 	}
 	
-	private double calcAvgProbe() {
+	 double calcAvgProbe() {
 		int result = 0;
 		for(int i = 0; i < maxProbe; i++) {
 			result+=i*probeHGram[i];
@@ -117,7 +117,7 @@ public class MyHashTable <K, V> {
 
 
 
-	private String histogramToString() {
+	 String histogramToString() {
 		StringBuilder result = new StringBuilder();
 		result.append('[');
 		for(int i = 0; i < maxProbe; i++)result.append(probeHGram[i] + ", ");
@@ -128,7 +128,7 @@ public class MyHashTable <K, V> {
 
 	
 
-	private int hash(K searchKey) {		
+	int hash(K searchKey) {		
 			
 		return (((String)searchKey).hashCode()&0x7FFF)%capacity;
 	}
@@ -145,11 +145,11 @@ public class MyHashTable <K, V> {
 		return result.toString().substring(0, result.length() -2 ) +"]" ;
 	}
 	
-	private void populateEmptyArray() {
+	 void populateEmptyArray() {
 		for(int i = 0; i < capacity; i++)data.add(null);		
 	}
 	
-	private int iterativeNumberElements() {
+	 int iterativeNumberElements() {
 		int result=0;
 		for(int i = 0; i<data.size(); i++)if(data.get(i) !=null)result++;	
 		return result;
